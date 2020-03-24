@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>互连设计系统</title>
+    <link rel="stylesheet" href="../css/layui.css">
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../layui.js"></script>
+    <script src="../js/create.js"></script>
+    <style>
+        /** 改变导航hover颜色 【公共】**/
+        span.layui-nav-bar { height: 2.6px; background-color: #ffd700; }
+
+        /** 消除左侧导航栏预留空间 【公共】**/
+        .layui-body, .layui-layout-admin .layui-footer { left: 0; }
+
+        body, .layui-layout-admin {height: 100%;}
+
+        /**  增加顶部margin 【公共】**/
+        body {color: #657180; font-size: 12px;}
+        .layui-form-radio * { font-size: 12px; }
+        /** 消除layui-inline margin-right，以便使用栅格布局 【create】**/
+        .layui-form-item .layui-inline { margin-right: 0 }
+
+        /** 卡片效果 【公共】**/
+        body { background:#eee; }
+        .layui-layout-admin .layui-footer {text-align: center;width:100%;height:60px;line-height:60px;background-color: #fff;}
+        .layui-content { margin: 20px 60px; background:#fff; border-radius: 10px; padding: 30px 0;height:80%;}
+        .layui-form { height:538px; }
+
+        /** 三个input框和一个textarea对齐 【create】**/
+        .layui-form-label {width: 51%; padding:9px 15px;box-sizing:border-box;}
+        .layui-form-item .layui-input-inline { margin-right: 0; width: 49%;}
+
+        /** 修改默认input框hover颜色、圆角和focus颜色阴影 【create】**/
+        .layui-input:focus, .layui-textarea:focus {outline:0;box-shadow:0 0 0 3px rgba(51,153,255,.2);border-color:#5cadff !important}
+        .layui-input:hover, .layui-textarea:hover {border-color: #5cadff !important;}
+        .layui-input, .layui-textarea {border-radius: 10px;}
+
+        /** 必填项加*号 【create】**/
+        .layui-form-label:before {
+                content: '*';
+                display: inline-block;
+                margin-right: 4px;
+                line-height: 1;
+                font-family: SimSun;
+                font-size: 12px;
+                color: #f30;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">互连设计系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+          <li class="layui-nav-item layui-this"><a href="./main.html">创建需求</a></li>
+          <li class="layui-nav-item"><a href="./list.html">需求列表</a></li>
+          <li class="layui-nav-item"><a href="./link.html">互连数据</a></li>
+          <li class="layui-nav-item">
+            <a href="javascript:;">其它系统</a>
+            <dl class="layui-nav-child">
+              <dd><a href="">邮件管理</a></dd>
+              <dd><a href="">消息管理</a></dd>
+              <dd><a href="">授权管理</a></dd>
+            </dl>
+          </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="../images/face/avatar.jpeg" class="layui-nav-img">
+          路人甲
+        </a>
+      </li>
+      <li class="layui-nav-item"><a href="">退出</a></li>
+    </ul>
+    </div>
+
+    <div class="layui-content">
+        <!-- 内容主体区域 -->
+        <form action="/demands" class="layui-form layui-container" method="post">
+            <div class="layui-form-item layui-row">
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        版本/技术项目
+                    </label>
+                    <div class="layui-input-inline" id="hide_tool">
+                        <input type="text" class="layui-input" name="project" autocomplete="off"
+                        onclick="search()" onkeyup="search()" lay-verify="required"
+                        style="position:absolute;z-index:2;">
+                        <select id="vp_select" lay-filter="vp_select">
+                            <option value="项目一">项目一</option>
+                            <option value="项目二">项目二</option>
+                            <option value="项目三">项目三</option>
+                            <option value="项目四">项目四</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        组件
+                    </label>
+                    <div class="layui-input-inline">
+                        <select name="component" lay-verify="required">
+                            <option value="组件一">组件一</option>
+                            <option value="组件二">组件二</option>
+                            <option value="组件三">组件三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        投板编码
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="pcb_id" autocomplete="off" lay-verify="required">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-row">
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        单板名称
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="pcb_name" autocomplete="off" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        芯片类型
+                    </label>
+                    <div class="layui-input-inline">
+                        <select name="chip_type">
+                            <option value="类型一">芯片类型一</option>
+                            <option value="类型二">芯片类型二</option>
+                            <option value="类型三">芯片类型三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        单板形态
+                    </label>
+                    <div class="layui-input-inline">
+                        <select name="pcb_model">
+                            <option value="形态一">单板形态一</option>
+                            <option value="形态二">单板形态二</option>
+                            <option value="形态三">单板形态三</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-row">
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        硬件规模Kpin
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="estimate_kpin" autocomplete="off" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        单板类型
+                    </label>
+                    <div class="layui-input-inline">
+                        <select name="pcb_type" lay-verify="required">
+                            <option value="类型一">单板类型一</option>
+                            <option value="类型二">单板类型二</option>
+                            <option value="类型三">单板类型三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        是否基线
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="baseline" class="layui-input" value="0" checked title="否">
+                        <input type="radio" name="baseline" class="layui-input" value="1" title="是">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-row">
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        PCB期望设计时间
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="expect_design_date" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        PCB期望结束时间
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="expect_end_date" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        PCB期望回板时间
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="expect_board_date" lay-verify="required">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-row">
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        仿真需求
+                    </label>
+                    <div class="layui-input-inline">
+                        <select name="sim_req" lay-verify="required">
+                            <option value="仿真一">仿真一</option>
+                            <option value="仿真二">仿真二</option>
+                            <option value="仿真三">仿真三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md4">
+                    <label for="" class="layui-form-label">
+                        投板数量
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="pcb_number" lay-verify="required" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text layui-row">
+                <div class="layui-inline layui-col-md12">
+                    <label for="" class="layui-form-label" style="width:17%">
+                        用途说明
+                    </label>
+                    <div style="width:83%;float:left;">
+                        <textarea name="description" class="layui-textarea" ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-row">
+                <div class="layui-input-block layui-col-md12" style="text-align:center;padding-right: 110px;">
+                    <button class="layui-btn layui-btn-radius layui-btn-normal" type="submit" lay-submit="" lay-filter="submit">提交</button>
+                    <button class="layui-btn layui-btn-radius layui-btn-primary" type="reset">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    Copyright &copy huawei.com - 底部固定区域
+    </div>
+</div>
+
+<script>
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element;
+
+});
+</script>
+</body>
+</html>
