@@ -69,14 +69,20 @@ demo_data = [{"id":10000,"username":"user-0","sex":"女","city":"城市-0","sign
 
 
 def data_view(request):
-    mode = request.GET.get('mode')
-    page = int(request.GET.get('page', 1))
-    limit = int(request.GET.get('limit', 30))
-    if mode == 'a':
-        resp = {'code': 0, 'msg': 'ok', 'count': 5, 'data': all_data[(page-1)*limit: (page-1)*limit+limit]}
-    else:
-        resp = {'code': 0, 'msg': 'ok', 'count': 3, 'data': person_data[(page-1)*limit: (page-1)*limit+limit]}
-    return HttpResponse(json.dumps(resp), content_type='application/json')
+    if request.method == 'GET':
+        mode = request.GET.get('mode', 'a')
+        page = int(request.GET.get('page', 1))
+        limit = int(request.GET.get('limit', 30))
+        if mode == 'a':
+            resp = {'code': 0, 'msg': 'ok', 'count': 5, 'data': all_data[(page-1)*limit: (page-1)*limit+limit]}
+        else:
+            resp = {'code': 0, 'msg': 'ok', 'count': 3, 'data': person_data[(page-1)*limit: (page-1)*limit+limit]}
+        return HttpResponse(json.dumps(resp), content_type='application/json')
+    elif request.method == 'POST':
+        json_data = json.loads(request.body)
+        print(json_data)
+        resp = {'code': 0, 'msg': 'ok', 'data': json_data}
+        return HttpResponse(json.dumps(resp), content_type='application/json')
 
 
 def person_data_view(request):

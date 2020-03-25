@@ -3,13 +3,10 @@ var schedule_tpl = function(data) {
     if (data.xxx=='xxx') {
         color = 'xxx'
     }
-    // 为什么style不生效？
-    return '<div class="layui-progress layui-progress-big" lay-showPercent="yes">' +
-           '<div class="layui-progress-bar" style:"background-color:#3fdc49" lay-percent="' +
-           data.schedule + '%"></div></div>'
+    return '<div class="progress_bar">' + data.schedule + '</div>'
 }
 
-columns = [[
+var columns = [[
     {type: 'checkbox'},
     {type: 'numbers', title: '序号'},
     {field: 'pcb_id', title: '投板编码'},
@@ -54,12 +51,15 @@ columns = [[
     {field: 'uncon_nets', title: '未连接NET数'},
     {field: 'chg_pins', title: '变更PIN数'},
     {field: 'chg_per', title: '变更百分比'},
-    // {fixed: 'right', title: '操作', toolbar: '#rowBar', width: 150}
 ]]
 
-layui.use(['element', 'table', 'layer', 'upload'], function() {
+// 设置全局变量，用于表格重载后保持当前筛选条件
+var gl_condition = null;
+
+layui.use(['element', 'table', 'form', 'layer', 'upload'], function() {
     var element = layui.element,
     table = layui.table,
+    form = layui.form,
     layer = layui.layer,
     upload = layui.upload;
 
@@ -75,9 +75,53 @@ layui.use(['element', 'table', 'layer', 'upload'], function() {
             {title: '导入', layEvent: 'LAYTABLE_IMPORT', icon: 'layui-icon-upload'},
         ],
         done: function(res, curr, count) {
+            // 规避直接在table.render中渲染进度条出现的导出为空的bug
+            var progress_els = $('.progress_bar');
+            $.each(progress_els, function() {
+                var percent = $(this).text();
+                var content = '<div class="layui-progress layui-progress-big" lay-showPercent="yes">' +
+                              '<div class="layui-progress-bar" lay-percent="' +
+                              percent + '%"></div></div>';
+                $(this).html(content);
+            });
+
+            // 保持当前筛选条件
+            if (gl_condition) {
+                form.val('search_filter', {
+                    's_field': gl_condition.s_field,
+                    's_value': gl_condition.s_value,
+                })
+            }
             element.init();
         }
     });
+
+    // 左工具栏事件监听
+    table.on('toolbar(table_demands)', function(obj) {
+        switch(obj.event) {
+            case 'search':
+                var form_data = form.val('search_filter');
+                if (form_data.s_field === '' ) {
+                    layer.tips('请选择一个搜索项', 'select[name="s_field"]+div', {tips:1});
+                    return
+                }
+                if (form_data.s_value === '') {
+                    layer.tips('请输入搜索条件', 'input[name="s_value"]', {tips:1});
+                    return
+                }
+                gl_condition = form_data;
+                search_demands({[form_data.s_field]: form_data.s_value});
+                break;
+        }
+    });
+
+    // 表格重载
+    var search_demands = function(condition) {
+        table.reload('table_demands', {
+            where: condition,
+            page: { curr: 1 }
+        });
+    }
 
     // 上传
     upload.render({
@@ -92,15 +136,5 @@ layui.use(['element', 'table', 'layer', 'upload'], function() {
             layer.alert('上传失败', {skin: 'layui-layer-lan', closeBtn: 1, anim: 6, icon: 2})
         }
     });
-    // 左工具栏事件监听
-    table.on('toolbar(table_demands)', function(obj) {
-        switch(obj.event) {
-            case 'search':
-                layer.msg("查询");
-                break;
-            case 'more':
-                layer.msg('更多条件');
-                break;
-        }
-    });
+
 });

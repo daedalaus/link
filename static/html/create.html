@@ -5,52 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>互连设计系统</title>
     <link rel="stylesheet" href="../css/layui.css">
+    <link rel="stylesheet" href="../css/create.css">
     <script src="../js/jquery-3.1.1.min.js"></script>
     <script src="../layui.js"></script>
     <script src="../js/create.js"></script>
-    <style>
-        /** 改变导航hover颜色 【公共】**/
-        span.layui-nav-bar { height: 2.6px; background-color: #ffd700; }
-
-        /** 消除左侧导航栏预留空间 【公共】**/
-        .layui-body, .layui-layout-admin .layui-footer { left: 0; }
-
-        body, .layui-layout-admin {height: 100%;}
-
-        /**  增加顶部margin 【公共】**/
-        body {color: #657180; font-size: 12px;}
-        .layui-form-radio * { font-size: 12px; }
-        /** 消除layui-inline margin-right，以便使用栅格布局 【create】**/
-        .layui-form-item .layui-inline { margin-right: 0 }
-
-        /** 卡片效果 【公共】**/
-        body { background:#eee; }
-        .layui-layout-admin .layui-footer {text-align: center;width:100%;height:60px;line-height:60px;background-color: #fff;}
-        .layui-content { margin: 20px 60px; background:#fff; border-radius: 10px; padding: 30px 0;height:80%;}
-        .layui-form { height:538px; }
-
-        /** 三个input框和一个textarea对齐 【create】**/
-        .layui-form-label {width: 51%; padding:9px 15px;box-sizing:border-box;}
-        .layui-form-item .layui-input-inline { margin-right: 0; width: 49%;}
-
-        /** 修改默认input框hover颜色、圆角和focus颜色阴影 【create】**/
-        .layui-input:focus, .layui-textarea:focus {outline:0;box-shadow:0 0 0 3px rgba(51,153,255,.2);border-color:#5cadff !important}
-        .layui-input:hover, .layui-textarea:hover {border-color: #5cadff !important;}
-        .layui-input, .layui-textarea {border-radius: 10px;}
-
-        /** 必填项加*号 【create】**/
-        .layui-form-label:before {
-                content: '*';
-                display: inline-block;
-                margin-right: 4px;
-                line-height: 1;
-                font-family: SimSun;
-                font-size: 12px;
-                color: #f30;
-        }
-
-
-    </style>
 </head>
 <body>
 
@@ -59,7 +17,7 @@
         <div class="layui-logo">互连设计系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-          <li class="layui-nav-item layui-this"><a href="./main.html">创建需求</a></li>
+          <li class="layui-nav-item layui-this"><a href="./create.html">创建需求</a></li>
           <li class="layui-nav-item"><a href="./list.html">需求列表</a></li>
           <li class="layui-nav-item"><a href="./link.html">互连数据</a></li>
           <li class="layui-nav-item">
@@ -82,6 +40,7 @@
     </ul>
     </div>
 
+    <div class="outer">
     <div class="layui-content">
         <!-- 内容主体区域 -->
         <form action="/demands" class="layui-form layui-container" method="post">
@@ -95,10 +54,21 @@
                         onclick="search()" onkeyup="search()" lay-verify="required"
                         style="position:absolute;z-index:2;">
                         <select id="vp_select" lay-filter="vp_select">
-                            <option value="项目一">项目一</option>
-                            <option value="项目二">项目二</option>
-                            <option value="项目三">项目三</option>
-                            <option value="项目四">项目四</option>
+                            <option value="Phoenix CS2">Phoenix CS2</option>
+                            <option value="Baltimore">Baltimore</option>
+                            <option value="Laguna">Laguna</option>
+                            <option value="Orlando">Orlando</option>
+                            <option value="HI3DFO">HI3DFO</option>
+                            <option value="Denver">Denver</option>
+                            <option value="Charlotte">Charlotte</option>
+                            <option value="Charlotte Pro">Charlotte Pro</option>
+                            <option value="KeywestC20">KeywestC20</option>
+                            <option value="Lexington">Lexington</option>
+                            <option value="Phoenix CS1">Phoenix CS1</option>
+                            <option value="Proxima">Proxima</option>
+                            <option value="HIHIPV300">HIHIPV300</option>
+                            <option value="HICDCV100">HICDCV100</option>
+                            <option value="BCM">BCM</option>
                         </select>
                     </div>
                 </div>
@@ -108,9 +78,25 @@
                     </label>
                     <div class="layui-input-inline">
                         <select name="component" lay-verify="required">
-                            <option value="组件一">组件一</option>
-                            <option value="组件二">组件二</option>
-                            <option value="组件三">组件三</option>
+                            <option value=""></option>
+                            <option value="HW1">HW1</option>
+                            <option value="HW2">HW2</option>
+                            <option value="HW3">HW3</option>
+                            <option value="HW7">HW7</option>
+                            <option value="HW8">HW8</option>
+                            <option value="RF1">RF1</option>
+                            <option value="RF2">RF2</option>
+                            <option value="RF3">RF3</option>
+                            <option value="RF7">RF7</option>
+                            <option value="HWP1">HWP1</option>
+                            <option value="HWP2">HWP2</option>
+                            <option value="HWP3">HWP3</option>
+                            <option value="HWP5">HWP5</option>
+                            <option value="HWP6">HWP6</option>
+                            <option value="HWP7">HWP7</option>
+                            <option value="SEG">SEG</option>
+                            <option value="固态存储">固态存储</option>
+                            <option value="其他">其他</option>
                         </select>
                     </div>
                 </div>
@@ -119,7 +105,7 @@
                         投板编码
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="pcb_id" autocomplete="off" lay-verify="required">
+                        <input type="text" class="layui-input" name="pcb_id" autocomplete="off" lay-verify="pcb_code">
                     </div>
                 </div>
             </div>
@@ -129,7 +115,7 @@
                         单板名称
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="pcb_name" autocomplete="off" lay-verify="required">
+                        <input type="text" class="layui-input" name="pcb_name" autocomplete="off" lay-verify="pcb_name">
                     </div>
                 </div>
                 <div class="layui-inline layui-col-md4">
@@ -138,9 +124,20 @@
                     </label>
                     <div class="layui-input-inline">
                         <select name="chip_type">
-                            <option value="类型一">芯片类型一</option>
-                            <option value="类型二">芯片类型二</option>
-                            <option value="类型三">芯片类型三</option>
+                            <option value=""></option>
+                            <option value="SOC">SOC</option>
+                            <option value="主机PMU">主机PMU</option>
+                            <option value="副PMU">副PMU</option>
+                            <option value="Codec">Codec</option>
+                            <option value="Scharger">Scharger</option>
+                            <option value="RF前端">RF前端</option>
+                            <option value="配套单板">配套单板</option>
+                            <option value="工具配套">工具配套</option>
+                            <option value="SIP">SIP</option>
+                            <option value="全场景模块">全场景模块</option>
+                            <option value="Testchip">Testchip</option>
+                            <option value="安全芯片">安全芯片</option>
+                            <option value="其他">其他</option>
                         </select>
                     </div>
                 </div>
@@ -150,9 +147,19 @@
                     </label>
                     <div class="layui-input-inline">
                         <select name="pcb_model">
-                            <option value="形态一">单板形态一</option>
-                            <option value="形态二">单板形态二</option>
-                            <option value="形态三">单板形态三</option>
+                            <option value=""></option>
+                            <option value="UDP/SLT测试单板">UDP/SLT测试单板</option>
+                            <option value="PISI专项测试板">PISI专项测试板</option>
+                            <option value="EMI专项测试板">EMI专项测试板</option>
+                            <option value="UT测试单板">UT测试单板</option>
+                            <option value="ST测试单板">ST测试单板</option>
+                            <option value="可靠性验证单板">可靠性验证单板</option>
+                            <option value="专有测试单板">专有测试单板</option>
+                            <option value="配套单板">配套单板</option>
+                            <option value="工具单板">工具单板</option>
+                            <option value="pinmap评估板">pinmap评估板</option>
+                            <option value="热测试单板">热测试单板</option>
+                            <option value="其他">其他</option>
                         </select>
                     </div>
                 </div>
@@ -172,9 +179,9 @@
                     </label>
                     <div class="layui-input-inline">
                         <select name="pcb_type" lay-verify="required">
-                            <option value="类型一">单板类型一</option>
-                            <option value="类型二">单板类型二</option>
-                            <option value="类型三">单板类型三</option>
+                            <option value=""></option>
+                            <option value="新增开发单板">新增开发单板</option>
+                            <option value="版本修改单板">版本修改单板</option>
                         </select>
                     </div>
                 </div>
@@ -220,11 +227,11 @@
                         仿真需求
                     </label>
                     <div class="layui-input-inline">
-                        <select name="sim_req" lay-verify="required">
-                            <option value="仿真一">仿真一</option>
-                            <option value="仿真二">仿真二</option>
-                            <option value="仿真三">仿真三</option>
-                        </select>
+                        <input type="checkbox" name="sim_req" title="无" lay-skin="primary">
+                        <input type="checkbox" name="sim_req" title="PI" lay-skin="primary">
+                        <input type="checkbox" name="sim_req" title="SI" lay-skin="primary">
+                        <input type="checkbox" name="sim_req" title="热" lay-skin="primary">
+                        <input type="checkbox" name="sim_req" title="EMI" lay-skin="primary">
                     </div>
                 </div>
                 <div class="layui-inline layui-col-md4">
@@ -232,41 +239,34 @@
                         投板数量
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="pcb_number" lay-verify="required" autocomplete="off">
+                        <input type="text" class="layui-input" name="pcb_number" lay-verify="pcb_number" autocomplete="off">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text layui-row">
                 <div class="layui-inline layui-col-md12">
-                    <label for="" class="layui-form-label" style="width:17%">
+                    <label for="" class="layui-form-label">
                         用途说明
                     </label>
-                    <div style="width:83%;float:left;">
-                        <textarea name="description" class="layui-textarea" ></textarea>
+                    <div>
+                        <textarea name="description" class="layui-textarea" lay-verify="description"></textarea>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item layui-row">
                 <div class="layui-input-block layui-col-md12" style="text-align:center;padding-right: 110px;">
-                    <button class="layui-btn layui-btn-radius layui-btn-normal" type="submit" lay-submit="" lay-filter="submit">提交</button>
+                    <button class="layui-btn layui-btn-radius layui-btn-normal" type="submit" lay-submit
+                            lay-filter="submit_filter">提交</button>
                     <button class="layui-btn layui-btn-radius layui-btn-primary" type="reset">重置</button>
                 </div>
             </div>
         </form>
     </div>
-
+    </div>
     <div class="layui-footer">
     <!-- 底部固定区域 -->
     Copyright &copy huawei.com - 底部固定区域
     </div>
 </div>
-
-<script>
-//JavaScript代码区域
-layui.use('element', function(){
-  var element = layui.element;
-
-});
-</script>
 </body>
 </html>

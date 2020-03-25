@@ -5,68 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>互连设计系统</title>
     <link rel="stylesheet" href="../css/layui.css">
+    <link rel="stylesheet" href="../css/link.css">
     <script src="../js/jquery-3.1.1.min.js"></script>
     <script src="../layui.js"></script>
     <script src="../js/link.js"></script>
-    <style>
-        /** 改变导航hover颜色 【公共】**/
-        span.layui-nav-bar { height: 2.6px; background-color: #ffd700; }
-
-        /** 消除左侧导航栏预留空间 【公共】**/
-        .layui-body, .layui-layout-admin .layui-footer { left: 0; }
-        .layui-layout-admin .layui-footer {text-align: center;}
-
-        body, .layui-layout-admin {height: 100%;}
-
-
-        /**  增加顶部margin 【公共】**/
-        body {color: #657180; font-size: 12px;}
-        .layui-form-radio * { font-size: 12px; }
-        /** 消除layui-inline margin-right，以便使用栅格布局 【create】width 230 【link】**/
-        .layui-form-item .layui-inline { margin-right: 0; width: 230px; }
-
-        /** 卡片效果 【公共】**/
-        body { background:#eee; }
-        .layui-content { margin: 20px 60px 0; background:#fff; border-radius: 10px; padding-top: 15px;height:60%;}
-        .layui-content div.layui-table-body.layui-table-main {height: 400px;}
-        div.layui-form {background:#fff;}
-        .layui-layout-admin .layui-footer {text-align: center;width:100%;height:60px;line-height:60px;background-color: #fff;}
-
-
-        #table_demands { }
-
-        /** 修改默认input框hover颜色、圆角和focus颜色阴影 【create】**/
-        .layui-input:focus, .layui-textarea:focus {outline:0;box-shadow:0 0 0 3px rgba(51,153,255,.2);border-color:#5cadff !important}
-        .layui-input:hover, .layui-textarea:hover {border-color: #5cadff !important;}
-        .layui-input, .layui-textarea {border-radius: 10px;}
-
-        /** 必填项加*号 【create】**/
-        .layui-form-label:before {
-                content: '*';
-                display: inline-block;
-                margin-right: 4px;
-                line-height: 1;
-                font-family: SimSun;
-                font-size: 12px;
-                color: #f30;
-        }
-
-        /** 修改表格标题和数据字体 **/
-        .layui-table td, .layui-table th { font-size: 12px; }
-
-        /** 修改弹窗圆角 **/
-        div.layui-layer { border-radius: 20px 20px 20px 20px; }
-        div.layui-layer-title { border-radius: 20px 20px 0 0; }
-
-        /** 输入框对齐 **/
-        .layui-inline { box-sizing: border-box; width: 48%; } /** 50%宽度正好为什么会塌陷？ **/
-        .layui-form-item .layui-input-inline { margin-right:0px; width: 50%; }
-        /** 缩小宽度防换行【link】 **/
-        .layui-form-label { width: 100px; }
-
-    </style>
 </head>
-<body class="">
+<body>
 
 <script id="link_toolbar" type="text/html">
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
@@ -74,23 +18,28 @@
 </script>
 
 <script id="toolbar_left" type="text/html">
-    <form action="" class="layui-form">
+    <form action="" class="layui-form" lay-filter="search_filter">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label for="" class="layui-form-label">投板编码</label>
+                <label for="" class="layui-form-label">搜索项</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" name="pcb_id">
+                    <select name="s_field" lay-verify="required">
+                        <option value=""></option>
+                        <option value="pcb_id">投板编码</option>
+                        <option value="pcb_name">单板名称</option>
+                        <option value="hardware_member">硬件设计人员</option>
+                        <option value="software_member">互连设计人员</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-inline">
-                <label for="" class="layui-form-label">单板名称</label>
+                <label for="" class="layui-form-label">搜索条件</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" name="pcb_name">
+                    <input type="text" class="layui-input" name="s_value">
                 </div>
             </div>
-            <button class="layui-btn layui-btn-sm" lay-event="search" type="button">查询</button>
+            <button class="layui-btn layui-btn-sm" lay-event="search" type="button">搜索</button>
             <button class="layui-btn layui-btn-sm" type="reset">重置</button>
-            <button class="layui-btn layui-btn-sm" lay-event="more" type="button">更多条件</button>
         </div>
     </form>
 </script>
@@ -100,7 +49,7 @@
         <div class="layui-logo">互连设计系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-          <li class="layui-nav-item"><a href="./main.html">创建需求</a></li>
+          <li class="layui-nav-item"><a href="./create.html">创建需求</a></li>
           <li class="layui-nav-item"><a href="./list.html">需求列表</a></li>
           <li class="layui-nav-item layui-this"><a href="./link.html">互连数据</a></li>
           <li class="layui-nav-item">
@@ -135,30 +84,36 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label for="" class="layui-form-label">当前状态</label>
+                    <label for="" class="layui-form-label">单板名称</label>
                     <div class="layui-input-inline">
-                        <select name="pcb_status" lay-revify="required">
-                            <option value="单板状态一">单板状态一</option>
-                            <option value="单板状态二">单板状态二</option>
-                            <option value="单板状态三">单板状态三</option>
-                        </select>
+                        <input type="text" class="layui-input" lay-verify="required" name="pcb_name" disabled
+                        style="background-color:#eee;">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label for="" class="layui-form-label">单板阶层</label>
-                    <div class="layui-input-inline" id="hide_tool">
-                        <input type="text" class="layui-input" name="pcb_class" lay-verify="required"
-                        autocomplete="off" onclick="search()" onkeyup="search()"
-                        style="position:absolute;z-index:2;">
-                        <select id="cl_select" lay-filter="cl_select">
-                            <option value="阶层一">阶层一</option>
-                            <option value="阶层二">阶层二</option>
-                            <option value="阶层三">阶层三</option>
+                    <label for="" class="layui-form-label">单板状态</label>
+                    <div class="layui-input-inline">
+                        <select name="pcb_status" lay-revify="required">
+                            <option value=""></option>
+                            <option value="设计">设计</option>
+                            <option value="加工">加工</option>
+                            <option value="已完成">已完成</option>
+                            <option value="hold">hold</option>
+                            <option value="暂不开发">暂不开发</option>
                         </select>
                     </div>
                 </div>
+                <div class="layui-inline">
+                    <label for="" class="layui-form-label">单板阶层</label>
+                    <div class="layui-input-inline" id="hide_tool">
+                        <input type="text" class="layui-input" name="pcb_class" lay-verify="pcb_class"
+                        autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">投板系统</label>
                     <div class="layui-input-inline">
@@ -168,28 +123,32 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">QA人员</label>
                     <div class="layui-input-inline">
                         <select name="qa" lay-verify="required">
-                            <option value="周余兵">周余兵</option>
+                            <option value=""></option>
+                            <option value="顾蝶花">顾蝶花</option>
+                            <option value="杨荣荣">杨荣荣</option>
                             <option value="王浩">王浩</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label for="" class="layui-form-label">工艺人员</label>
-                    <div class="layui-input-inline">
-                        <select name="craft" lay-verify="required">
-                            <option value="人员甲">人员甲</option>
-                            <option value="人员乙">人员乙</option>
+                            <option value="张超">张超</option>
+                            <option value="康乐">康乐</option>
+                            <option value="周余兵">周余兵</option>
+                            <option value="李哲明">李哲明</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label for="" class="layui-form-label">工艺人员</label>
+                    <div class="layui-input-inline">
+                        <select name="craft" lay-verify="required">
+                            <option value="王俊涛">王俊涛</option>
+                            <option value="无线工艺">无线工艺</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">PCB设计启动时间</label>
                     <div class="layui-input-inline">
@@ -197,6 +156,8 @@
                         autocomplete="off">
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">PCB设计结束时间</label>
                     <div class="layui-input-inline">
@@ -204,8 +165,6 @@
                         autocomplete="off">
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">PCB加工时间</label>
                     <div class="layui-input-inline">
@@ -213,69 +172,70 @@
                         autocomplete="off">
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">原理图变更阶段</label>
                     <div class="layui-input-inline">
                         <select name="modify_stage" lay-verify="required">
-                            <option value="阶段一">阶段一</option>
-                            <option value="阶段二">阶段二</option>
+                            <option value=""></option>
+                            <option value="布局">布局</option>
+                            <option value="布线">布线</option>
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">总PIN数</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="total_pins" lay-verify="required"
+                        <input type="text" class="layui-input" name="total_pins" lay-verify="total_pins"
                         autocomplete="off">
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">增加PIN数</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="incr_pins" lay-verify="required"
+                        <input type="text" class="layui-input" name="incr_pins" lay-verify="number"
                         autocomplete="off">
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">改变PIN数</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="modify_pins" lay-verify="required"
+                        <input type="text" class="layui-input" name="modify_pins" lay-verify="number"
                         autocomplete="off">
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">减少PIN数</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="decr_pins" lay-verify="required"
+                        <input type="text" class="layui-input" name="decr_pins" lay-verify="number"
                         autocomplete="off">
                     </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label for="" class="layui-form-label">未连接PIN数</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="uncon_pins" lay-verify="required"
-                        autocomplete="off">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label for="" class="layui-form-label">总NET数</label>
-                    <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="total_nets" lay-verify="required"
+                        <input type="text" class="layui-input" name="uncon_pins" lay-verify="number"
                         autocomplete="off">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
+                    <label for="" class="layui-form-label">总NET数</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="total_nets" lay-verify="number"
+                        autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
                     <label for="" class="layui-form-label">未连接NET数</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" name="uncon_nets" lay-verify="required"
+                        <input type="text" class="layui-input" name="uncon_nets" lay-verify="number"
                         autocomplete="off">
                     </div>
                 </div>
@@ -290,13 +250,5 @@
     Copyright &copy huawei.com - 底部固定区域
     </div>
 </div>
-
-<script>
-//JavaScript代码区域
-layui.use('element', function(){
-  var element = layui.element;
-
-});
-</script>
 </body>
 </html>

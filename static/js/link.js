@@ -3,10 +3,7 @@ var schedule_tpl = function(data) {
     if (data.xxx=='xxx') {
         color = 'xxx'
     }
-    // 为什么style不生效？
-    return '<div class="layui-progress layui-progress-big" lay-showPercent="yes">' +
-           '<div class="layui-progress-bar" style:"background-color:#3fdc49" lay-percent="' +
-           data.schedule + '%"></div></div>'
+    return '<div class="progress_bar">' + data.schedule + '</div>'
 }
 
 columns = [[
@@ -57,18 +54,6 @@ columns = [[
     {fixed: 'right', title: '操作', align: 'center', toolbar: '#link_toolbar', width: 150},
 ]]
 
-function hide_sel() {
-    $('#cl_select').next().find('dl').css({'display': 'none'});
-};
-function show_sel() {
-    var dl = $('#cl_select').next().find('dl').children();
-    var j = 0;
-    for (var i=0; i<dl.length; i++) {
-        dl[i].classList.remove('layui-this')
-    }
-    $('#cl_select').next().find('dl').css({'display': 'block'});
-};
-
 layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function() {
     var element = layui.element,
     laydate = layui.laydate,
@@ -90,10 +75,32 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
             {title: '导入', layEvent: 'LAYTABLE_IMPORT', icon: 'layui-icon-upload'},
         ],
         done: function(res, curr, count) {
+            // 规避直接在table.render中渲染进度条出现的导出为空的bug
+            var progress_els = $('.progress_bar');
+            $.each(progress_els, function() {
+                var percent = $(this).text();
+                var content = '<div class="layui-progress layui-progress-big" lay-showPercent="yes">' +
+                              '<div class="layui-progress-bar" lay-percent="' +
+                              percent + '%"></div></div>';
+                $(this).html(content);
+            });
             element.init();
         }
     });
 
+    // 左工具栏事件监听
+    table.on('toolbar(table_demands)', function(obj) {
+        switch(obj.event) {
+            case 'search':
+                layer.msg("查询");
+                break;
+            case 'more':
+                layer.msg('更多条件');
+                break;
+        }
+    });
+
+    // 右工具栏事件监听
     table.on('tool(table_demands)', function(obj) {
         if (obj.event==='edit') {
 
@@ -115,33 +122,25 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
         }
     });
 
-    // 实现input和select联动
-    form.on('select(cl_select)', function(data) {
-        $('input[name="pcb_class"]').val(data.value);
-        hide_sel();
-        form.render();
+    // 上传
+    upload.render({
+        elem: 'div[lay-event="LAYTABLE_IMPORT"]',
+        url: '/import/',
+        accept: 'file',
+        exts: 'csv|xls|xlsx',
+        done: function(res) {
+            layer.alert('上传成功', {skin: 'layui-layer-lan', closeBtn: 1, anim: 1, icon: 1})
+        },
+        error: function(res) {
+            layer.alert('上传失败', {skin: 'layui-layer-lan', closeBtn: 1, anim: 6, icon: 2})
+        }
     });
-    window.search = function() {
-        var value = $('input[name="pcb_class"]').val();
-        form.render();
-        show_sel();
-        var dl = $('#cl_select').next().find('dl').children();
-        var j = 0;
-        for (var i=0; i<dl.length; i++) {
-            if (dl[i].innerHTML.indexOf(value)<=-1) {
-                dl[i].style.display = 'none';
-                j++;
-            }
-        }
-        if (j==dl.length) {
-            hide_sel();
-        }
-    }
-    // 点击无关区域隐藏option选项
-    document.onclick = hide_sel
-    $('#hide_tool').click(
-        function(e) {e.stopPropagation();}
-    );
+
+    // 自定义表单验证
+    form.verify({
+        pcb_class: [/[一二三四五六七八九十]层[一二三四五六七八九十]阶/, '单板层阶应填几层几阶'],
+        total_pins: [/[1-9][0-9]*/, '总PIN数应大于0'],
+    });
 
     // 渲染日期input框
     laydate.render({
@@ -160,28 +159,6 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
         trigger: 'click',
     });
 
-    // 上传
-    upload.render({
-        elem: 'div[lay-event="LAYTABLE_IMPORT"]',
-        url: '/import/',
-        accept: 'file',
-        exts: 'csv|xls|xlsx',
-        done: function(res) {
-            layer.alert('上传成功', {skin: 'layui-layer-lan', closeBtn: 1, anim: 1, icon: 1})
-        },
-        error: function(res) {
-            layer.alert('上传失败', {skin: 'layui-layer-lan', closeBtn: 1, anim: 6, icon: 2})
-        }
-    });
-    // 左工具栏事件监听
-    table.on('toolbar(table_demands)', function(obj) {
-        switch(obj.event) {
-            case 'search':
-                layer.msg("查询");
-                break;
-            case 'more':
-                layer.msg('更多条件');
-                break;
-        }
-    });
+
+
 });
