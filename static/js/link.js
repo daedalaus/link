@@ -3,54 +3,55 @@ var schedule_tpl = function(data) {
     if (data.xxx=='xxx') {
         color = 'xxx'
     }
-    return '<div class="progress_bar">' + data.schedule + '</div>'
+    var pb_text = data.schedule ? data.schedule : 0;
+    return '<div class="progress_bar">' + pb_text + '</div>'
 }
 
-columns = [[
+var columns = [[
     {type: 'checkbox', fixed: 'left'}, // 框架有bug，如果不设置fixed，行删除后checkbox会失效
-    {type: 'numbers', title: '序号'},
-    {field: 'pcb_id', title: '投板编码'},
-    {field: 'schedule', title: '进度', width: 180, templet: schedule_tpl},
-    {field: 'project', title: '版本/技术项目'},
-    {field: 'hardware_member', title: '硬件设计人员'},
-    {field: 'software_member', title: '互连设计人员'},
-    {field: 'pcb_status', title: '单板状态'},
-    {field: 'sim_req', title: '仿真需求'},
-    {field: 'modify_count', title: '原理图修改次数'},
-    {field: 'modify_stage', title: '原理图变更阶段'},
-    {field: 'act_start_date', title: 'PCB设计启动时间'},
-    {field: 'act_end_date', title: 'PCB设计结束时间'},
-    {field: 'act_board_date', title: 'PCB回板时间'},
-    {field: 'act_mach_date', title: 'PCB加工时间'},
+    {type: 'numbers', title: '序号', width: 120},
+    {field: 'pcb_id', title: '投板编码', width: 120},
+    {field: 'schedule', title: '进度', width: 180, templet: schedule_tpl, width: 120},
+    {field: 'project', title: '版本/技术项目', width: 120},
+    {field: 'hardware_member', title: '硬件设计人员', width: 120},
+    {field: 'software_member', title: '互连设计人员', width: 120},
+    {field: 'pcb_status', title: '单板状态', width: 120},
+    {field: 'sim_req', title: '仿真需求', width: 120},
+    {field: 'modify_count', title: '原理图修改次数', width: 120},
+    {field: 'modify_stage', title: '原理图变更阶段', width: 120},
+    {field: 'act_start_date', title: 'PCB设计启动时间', width: 120},
+    {field: 'act_end_date', title: 'PCB设计结束时间', width: 120},
+    {field: 'act_board_date', title: 'PCB回板时间', width: 120},
+    {field: 'act_mach_date', title: 'PCB加工时间', width: 120},
 
-    {field: 'component', title: '组件'},
-    {field: 'pcb_name', title: '单板名称'},
-    {field: 'chip_type', title: '芯片类型'},
-    {field: 'chip_model', title: '芯片型号'},
-    {field: 'pcb_model', title: '单板形态'},
-    {field: 'estimate_kpin', title: '硬件规模'},
-    {field: 'pcb_type', title: '单板类型'},
-    {field: 'baseline', title: '是否基线'},
-    {field: 'description', title: '用途说明'},
-    {field: 'expect_design_date', title: 'PCB期望设计时间'},
-    {field: 'expecct_end_date', title: 'PCB期望结束时间'},
-    {field: 'expect_board_date', title: 'PCB期望回报时间'},
-    {field: 'pcb_number', title: '投板数量'},
-    {field: 'cre_date', title: '日期自动'},
+    {field: 'component', title: '组件', width: 120},
+    {field: 'pcb_name', title: '单板名称', width: 120},
+    {field: 'chip_type', title: '芯片类型', width: 120},
+    {field: 'chip_model', title: '芯片型号', width: 120},
+    {field: 'pcb_model', title: '单板形态', width: 120},
+    {field: 'estimate_kpin', title: '硬件规模', width: 120},
+    {field: 'pcb_type', title: '单板类型', width: 120},
+    {field: 'baseline', title: '是否基线', width: 120},
+    {field: 'description', title: '用途说明', width: 120},
+    {field: 'expect_design_date', title: 'PCB期望设计时间', width: 120},
+    {field: 'expect_end_date', title: 'PCB期望结束时间', width: 120},
+    {field: 'expect_board_date', title: 'PCB期望回板时间', width: 120},
+    {field: 'pcb_number', title: '投板数量', width: 120},
+    {field: 'cre_date', title: '创建时间', width: 120},
 
-    {field: 'pcb_class', title: '单板阶层'},
-    {field: 'pcb_sys', title: '投板系统'},
-    {field: 'qa', title: 'QA人员'},
-    {field: 'craft', title: '工艺人员'},
-    {field: 'total_pins', title: '总PIN数'},
-    {field: 'incr_pins', title: '增加PIN数'},
-    {field: 'modify_pins', title: '改变PIN数'},
-    {field: 'decr_pins', title: '减少PIN数'},
-    {field: 'uncon_pins', title: '未连接PIN数'},
-    {field: 'total_nets', title: '总NET数'},
-    {field: 'uncon_nets', title: '未连接NET数'},
-    {field: 'chg_pins', title: '变更PIN数'},
-    {field: 'chg_per', title: '变更百分比'},
+    {field: 'pcb_class', title: '单板层阶', width: 120},
+    {field: 'pcb_sys', title: '投板系统', width: 120},
+    {field: 'qa', title: 'QA人员', width: 120},
+    {field: 'craft', title: '工艺人员', width: 120},
+    {field: 'total_pins', title: '总PIN数', width: 120},
+    {field: 'incr_pins', title: '增加PIN数', width: 120},
+    {field: 'modify_pins', title: '改变PIN数', width: 120},
+    {field: 'decr_pins', title: '减少PIN数', width: 120},
+    {field: 'uncon_pins', title: '未连接PIN数', width: 120},
+    {field: 'total_nets', title: '总NET数', width: 120},
+    {field: 'uncon_nets', title: '未连接NET数', width: 120},
+    {field: 'chg_pins', title: '变更PIN数', width: 120},
+    {field: 'chg_per', title: '变更百分比', width: 120},
     {fixed: 'right', title: '操作', align: 'center', toolbar: '#link_toolbar', width: 150},
 ]]
 
@@ -65,11 +66,10 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
     table.render({
         elem: '#table_demands',
         height: 'full-180',
-        url: '/demands?mode=a',
+        url: '/demands?mode=b',
         page: true,
         cols: columns,
-        toolbar: '#toolbar_left', // 自定义toolbar备忘录 lay-event: 筛选列-LAYTABLE_COLS
-                            // 导出-LAYTABLE_EXPORT 打印-LAYTABLE_PRINT
+        toolbar: '#toolbar_left',
         defaultToolbar: ['filter', 'exports',
             {title: '下载模板', layEvent: 'LAYTABLE_TPL', icon: 'layui-icon-template-1'},
             {title: '导入', layEvent: 'LAYTABLE_IMPORT', icon: 'layui-icon-upload'},
@@ -92,35 +92,79 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
     table.on('toolbar(table_demands)', function(obj) {
         switch(obj.event) {
             case 'search':
-                layer.msg("查询");
-                break;
-            case 'more':
-                layer.msg('更多条件');
+                var form_data = form.val('search_filter');
+                if (form_data.s_field === '' ) {
+                    layer.tips('请选择一个搜索项', 'select[name="s_field"]+div', {tips:1});
+                    return;
+                }
+                if (form_data.s_value === '') {
+                    layer.tips('请输入搜索条件', 'input[name="s_value"]', {tips:1});
+                    return;
+                }
+                gl_condition = form_data;
+                search_demands({[form_data.s_field]: form_data.s_value});
                 break;
         }
     });
 
-    // 右工具栏事件监听
+    // 表格重载
+    var search_demands = function(condition) {
+        table.reload('table_demands', {
+            url: '/demands',
+            where: condition,
+            page: { curr: 1 }
+        });
+    }
+
+    // 行事件监听
     table.on('tool(table_demands)', function(obj) {
         if (obj.event==='edit') {
-
             layer.open({
                 type: 1,
                 content: $('#edit_window'),
                 area: ['700px', '500px'],
                 btn: ['保存', '取消'],
-                yes: function(index, layero) {
-                    alert('保存成功');
-                },
                 btnAlign: 'c',
+                yes: function(index, layero) {
+                    $('#edit_filter').click();
+                },
+                end: function(index, layero) {
+                    $('#edit_filter+button').click();
+                },
+                success: function(layero, index) {
+                    form.val('search_filter', obj.data);
+                }
             });
         } else if (obj.event==='del') {
             layer.confirm('真的删除此条记录吗？', function(index) {
-                obj.del();
+                del_demands(obj);
                 layer.close(index);
             });
         }
     });
+
+    // 删除需求
+    function del_demands(obj) {
+        $.ajax({
+            url: '/demands/' + obj.data.pcb_id,
+            type: 'delete',
+            contentType: 'application/json',
+            success: function(res) {
+                if (res.code == 204) {
+                    obj.del();
+                    layer.msg(res.msg);
+                } else {
+                    layer.msg(res.msg, {anim: 6, skin: 'layui-layer-hui'});
+                }
+            },
+            error: function(res) {
+                var content = '删除失败，请确认原因<br>状态码：' + res.status +
+                              '<br>提示信息：' + res.statusText;
+                layer.msg(content, {anim: 6, skin: 'layui-layer-hui'});
+                console.log(res);
+            },
+        });
+    }
 
     // 上传
     upload.render({
@@ -129,17 +173,18 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
         accept: 'file',
         exts: 'csv|xls|xlsx',
         done: function(res) {
-            layer.alert('上传成功', {skin: 'layui-layer-lan', closeBtn: 1, anim: 1, icon: 1})
+            if (res.code == 200) {
+                layer.msg(res.msg);
+            } else {
+                layer.msg(res.msg, {anim: 6, skin: 'layui-layer-hui'});
+            }
         },
         error: function(res) {
-            layer.alert('上传失败', {skin: 'layui-layer-lan', closeBtn: 1, anim: 6, icon: 2})
-        }
-    });
-
-    // 自定义表单验证
-    form.verify({
-        pcb_class: [/[一二三四五六七八九十]层[一二三四五六七八九十]阶/, '单板层阶应填几层几阶'],
-        total_pins: [/[1-9][0-9]*/, '总PIN数应大于0'],
+            var content = '上传失败，请确认原因<br>状态码：' + res.status +
+                          '<br>提示信息：' + res.statusText;
+            layer.msg(content, {anim: 6, skin: 'layui-layer-hui'});
+            console.log(res);
+        },
     });
 
     // 渲染日期input框
@@ -159,6 +204,35 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
         trigger: 'click',
     });
 
+    // 自定义表单验证
+    form.verify({
+        pcb_code: [/^0301[0-9][a-zA-Z]{3}$/, '投板编码格式应为0301+一位数字+三个字母'],
+        pcb_name: [/^Hi.*/, '单板名称应以Hi开头'],
+        pcb_class: [/[一二三四五六七八九十]层[一二三四五六七八九十]阶/, '单板层阶应填几层几阶'],
+        total_pins: [/[1-9][0-9]*/, '总PIN数应大于0'],
+    });
 
-
+    // 编辑互连数据提交事件
+    form.on('submit(edit_filter)', function(data) {
+        $.ajax({
+            url: '/demands/' + data.field.pcb_id,
+            type: 'put',
+            data: JSON.stringify(data.field),
+            contentType: 'application/json',
+            success: function(res) {
+                if (res.code == 21) {
+                    layer.msg(res.msg);
+                } else {
+                    layer.msg(res.msg, {anim: 6, skin: 'layui-layer-hui'});
+                }
+            },
+            error: function(res) {
+                var content = '保存失败，请确认原因<br>状态码：' + res.status +
+                              '<br>提示信息：' + res.statusText;
+                layer.msg(content, {anim: 6, skin: 'layui-layer-hui'});
+                console.log(res);
+            }
+        });
+        return false;
+    })
 });
