@@ -18,7 +18,7 @@ var columns = [[
     {field: 'qa', title: 'QA人员', width: 120},
     {field: 'craft', title: '工艺人员', width: 120},
     {field: 'pcb_process', title: '投板流程', width: 120},
-    {field: 'estimate_kpin', title: '硬件规模', width: 120},
+    {field: 'pcb_scale', title: '硬件规模', width: 120},
     {field: 'pcb_class', title: '单板层阶', width: 120},
     {field: 'act_start_date', title: 'PCB设计启动时间', width: 120},
     {field: 'act_end_date', title: 'PCB设计结束时间', width: 120},
@@ -38,7 +38,6 @@ var columns = [[
     {field: 'sim_req', title: '仿真需求', width: 120, hide: true},
     {field: 'modify_count', title: '原理图修改次数', width: 120, hide: true},
     {field: 'modify_stage', title: '原理图变更阶段', width: 120, hide: true},
-    {field: 'act_board_date', title: 'PCB回板时间', width: 120, hide: true},
     {field: 'group', title: '所属组', width: 120, hide: true},
     {field: 'chip_type', title: '芯片类型', width: 120, hide: true},
     {field: 'chip_model', title: '芯片型号', width: 120, hide: true},
@@ -46,12 +45,9 @@ var columns = [[
     {field: 'pcb_type', title: '单板类型', width: 120, hide: true},
     {field: 'baseline', title: '是否基线', width: 120, hide: true},
     {field: 'description', title: '用途说明', width: 120, hide: true},
-    {field: 'expect_design_date', title: 'PCB期望设计时间', width: 120, hide: true},
     {field: 'expect_end_date', title: 'PCB期望结束时间', width: 120, hide: true},
-    {field: 'expect_board_date', title: 'PCB期望回板时间', width: 120, hide: true},
     {field: 'pcb_number', title: '投板数量', width: 120, hide: true},
-    {field: 'cre_date', title: '创建时间', width: 120, hide: true},
-    {field: 'pcb_sys', title: '投板系统', width: 120, hide: true},
+    {field: 'created_time', title: '创建时间', width: 120, hide: true},
     {fixed: 'right', title: '操作', align: 'center', toolbar: '#link_toolbar', width: 150},
 ]]
 
@@ -66,7 +62,7 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
     table.render({
         elem: '#table_demands',
         height: 'full-180',
-        url: '/demands?mode=b',
+        url: '/links/',
         page: true,
         cols: columns,
         toolbar: '#toolbar_left',
@@ -74,6 +70,9 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
             {title: '下载模板', layEvent: 'LAYTABLE_TPL', icon: 'layui-icon-template-1'},
             {title: '导入', layEvent: 'LAYTABLE_IMPORT', icon: 'layui-icon-upload'},
         ],
+        response: {
+            statusCode: 200,
+        },
         done: function(res, curr, count) {
             // 规避直接在table.render中渲染进度条出现的导出为空的bug
             var progress_els = $('.progress_bar');
@@ -110,7 +109,7 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
     // 表格重载
     var search_demands = function(condition) {
         table.reload('table_demands', {
-            url: '/demands',
+            url: '/links/',
             where: condition,
             page: { curr: 1 }
         });
@@ -127,13 +126,13 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
                 closeBtn: 1,
                 btnAlign: 'c',
                 yes: function(index, layero) {
-                    $('#edit_filter').click();
+                    $('#edit_submit').click();
                 },
                 end: function(index, layero) {
-                    $('#edit_filter+button').click();
+                    $('#edit_submit+button').click();
                 },
                 success: function(layero, index) {
-                    form.val('search_filter', obj.data);
+                    form.val('edit_form_filter', obj.data);
                 }
             });
         } else if (obj.event==='del') {
@@ -147,10 +146,11 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
     // 删除需求
     function del_demands(obj) {
         $.ajax({
-            url: '/demands/' + obj.data.pcb_id,
+            url: '/links/' + obj.data.pcb_id + '/',
             type: 'delete',
             contentType: 'application/json',
             success: function(res) {
+                console.log(res);
                 if (res.code == 204) {
                     obj.del();
                     layer.msg(res.msg);
@@ -216,12 +216,12 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
     // 编辑互连数据提交事件
     form.on('submit(edit_filter)', function(data) {
         $.ajax({
-            url: '/demands/' + data.field.pcb_id,
+            url: '/links/' + data.field.pcb_id + '/',
             type: 'put',
             data: JSON.stringify(data.field),
             contentType: 'application/json',
             success: function(res) {
-                if (res.code == 21) {
+                if (res.code == 201) {
                     layer.msg(res.msg);
                 } else {
                     layer.msg(res.msg, {anim: 6, skin: 'layui-layer-hui'});
@@ -235,5 +235,5 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
             }
         });
         return false;
-    })
+    });
 });

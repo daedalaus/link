@@ -104,7 +104,7 @@ layui.use(['form', 'laydate', 'layer'], function(){
             }
             $.ajax({
                 // url: '/demands/' + this.name + '/' + this.value + '/count/',
-                url: '/demands/' + this.value + '/count/',
+                url: '/boards/' + this.value + '/count/',
                 contentType: 'application/json',
                 success: function(res) {
                     if (res.code != 200) {
@@ -132,13 +132,13 @@ layui.use(['form', 'laydate', 'layer'], function(){
     // 更改表单提交方式
     form.on('submit(submit_filter)', function(data) {
         // 手动修正checkbox多选时form只能获取到最后一个值的问题
-        var sim_req = new Array();
+        var sim_req = '';
         $('input:checkbox[name="sim_req"]:checked').each(function() {
-            sim_req.push($(this).val());
+            sim_req += $(this).val() + ',';
         })
-        data.field.sim_req = sim_req;
+        data.field.sim_req = sim_req.slice(0, sim_req.length-1);
         $.ajax({
-            url: '/demands/',
+            url: '/boards/',
             type: 'post',
             data: JSON.stringify(data.field),
             contentType: 'application/json',

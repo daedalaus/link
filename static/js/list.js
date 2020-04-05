@@ -16,21 +16,13 @@ var columns = [[
     {field: 'project', title: '版本/技术项目', width: 120},
     {field: 'hardware_member', title: '硬件设计人员', width: 120},
     {field: 'software_member', title: '互连设计人员', width: 120},
-    {field: 'qa', title: 'QA人员', width: 120},
-    {field: 'craft', title: '工艺人员', width: 120},
     {field: 'pcb_process', title: '投板流程', width: 120},
-    {field: 'estimate_kpin', title: '硬件规模', width: 120},
+    {field: 'pcb_scale', title: '硬件规模', width: 120},
     {field: 'pcb_class', title: '单板层阶', width: 120},
-    {field: 'act_start_date', title: 'PCB设计启动时间', width: 120},
     {field: 'act_end_date', title: 'PCB设计结束时间', width: 120},
-    {field: 'act_mach_date', title: 'PCB加工时间', width: 120},
-    {field: 'modify_count', title: '原理图修改次数', width: 120},
-    {field: 'chg_per', title: '变更百分比', width: 120},
 
-    {field: 'modify_stage', title: '原理图变更阶段', width: 120, hide: true},
     {field: 'pcb_status', title: '单板状态', width: 120, hide: true},
     {field: 'sim_req', title: '仿真需求', width: 120, hide: true},
-    {field: 'act_board_date', title: 'PCB回板时间', width: 120, hide: true},
     {field: 'group', title: '所属组', width: 120, hide: true},
     {field: 'chip_type', title: '芯片类型', width: 120, hide: true},
     {field: 'chip_model', title: '芯片型号', width: 120, hide: true},
@@ -38,20 +30,9 @@ var columns = [[
     {field: 'pcb_type', title: '单板类型', width: 120, hide: true},
     {field: 'baseline', title: '是否基线', width: 120, hide: true},
     {field: 'description', title: '用途说明', width: 120, hide: true},
-    {field: 'expect_design_date', title: 'PCB期望设计时间', width: 120, hide: true},
     {field: 'expect_end_date', title: 'PCB期望结束时间', width: 120, hide: true},
-    {field: 'expect_board_date', title: 'PCB期望回板时间', width: 120, hide: true},
     {field: 'pcb_number', title: '投板数量', width: 120, hide: true},
-    {field: 'cre_date', title: '创建时间', width: 120, hide: true},
-    {field: 'pcb_sys', title: '投板系统', width: 120, hide: true},
-    {field: 'total_pins', title: '总PIN数', width: 120, hide: true},
-    {field: 'incr_pins', title: '增加PIN数', width: 120, hide: true},
-    {field: 'modify_pins', title: '改变PIN数', width: 120, hide: true},
-    {field: 'decr_pins', title: '减少PIN数', width: 120, hide: true},
-    {field: 'uncon_pins', title: '未连接PIN数', width: 120, hide: true},
-    {field: 'total_nets', title: '总NET数', width: 120, hide: true},
-    {field: 'uncon_nets', title: '未连接NET数', width: 120, hide: true},
-    {field: 'chg_pins', title: '变更PIN数', width: 120, hide: true},
+    {field: 'created_time', title: '创建时间', width: 120, hide: true},
 ]]
 
 // 设置全局变量，用于表格重载后保持当前筛选条件
@@ -67,7 +48,7 @@ layui.use(['element', 'table', 'form', 'layer', 'upload'], function() {
     table.render({
         elem: '#table_demands',
         height: 'full-180',
-        url: '/demands?mode=a',
+        url: '/boards/',
         page: true,
         cols: columns,
         toolbar: '#toolbar_left',
@@ -75,6 +56,9 @@ layui.use(['element', 'table', 'form', 'layer', 'upload'], function() {
             {title: '下载模板', layEvent: 'LAYTABLE_TPL', icon: 'layui-icon-template-1'},
             {title: '导入', layEvent: 'LAYTABLE_IMPORT', icon: 'layui-icon-upload'},
         ],
+        response: {
+            statusCode: 200,
+        },
         done: function(res, curr, count) {
             // 规避直接在table.render中渲染进度条出现的导出为空的bug
             var progress_els = $('.progress_bar');
@@ -119,7 +103,7 @@ layui.use(['element', 'table', 'form', 'layer', 'upload'], function() {
     // 表格重载
     var search_demands = function(condition) {
         table.reload('table_demands', {
-            url: '/demands',
+            url: '/boards/',
             where: condition,
             page: { curr: 1 }
         });

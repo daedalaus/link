@@ -43,7 +43,7 @@
     <div class="outer">
         <div class="layui-content">
             <!-- 内容主体区域 -->
-            <form action="/demands" class="layui-form layui-container" method="post">
+            <form action="" class="layui-form layui-container" method="post">
                 <div class="layui-form-item layui-row">
                     <div class="layui-inline layui-col-md4">
                         <label for="" class="layui-form-label">
@@ -174,10 +174,10 @@
                     </div>
                     <div class="layui-inline layui-col-md4">
                         <label for="" class="layui-form-label">
-                            硬件规模Kpin
+                            硬件规模（Kpin）
                         </label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="estimate_kpin" autocomplete="off" lay-verify="required">
+                            <input type="text" class="layui-input" name="pcb_scale" autocomplete="off" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-inline layui-col-md4">
@@ -220,15 +220,6 @@
                 <div class="layui-form-item layui-row">
                     <div class="layui-inline layui-col-md4">
                         <label for="" class="layui-form-label">
-                            PCB期望设计时间
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="expect_design_date" lay-verify="required"
-                            autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="layui-inline layui-col-md4">
-                        <label for="" class="layui-form-label">
                             PCB期望结束时间
                         </label>
                         <div class="layui-input-inline">
@@ -236,17 +227,6 @@
                             autocomplete="off">
                         </div>
                     </div>
-                    <div class="layui-inline layui-col-md4">
-                        <label for="" class="layui-form-label">
-                            PCB期望回板时间
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" name="expect_board_date" lay-verify="required"
-                            autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item layui-row">
                     <div class="layui-inline layui-col-md4">
                         <label for="" class="layui-form-label">
                             投板数量
