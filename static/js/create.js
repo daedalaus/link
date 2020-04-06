@@ -45,15 +45,7 @@ layui.use(['form', 'laydate', 'layer'], function(){
 
     // 渲染日期input框
     laydate.render({
-        elem: 'input[name="expect_design_date"]',
-        min: 0,
-    });
-    laydate.render({
         elem: 'input[name="expect_end_date"]',
-        min: 0,
-    });
-    laydate.render({
-        elem: 'input[name="expect_board_date"]',
         min: 0,
     });
 
@@ -89,7 +81,7 @@ layui.use(['form', 'laydate', 'layer'], function(){
     $(function() {
         // 单板名称是否要确保唯一性还待确认，先跳过
         //$('input[name="pcb_id"],input[name="pcb_name"]').blur(function() {
-        $('input[name="pcb_id"],input[name="pcb_name"]').blur(function() {
+        $('input[name="pcb_id"]').blur(function() {
             var reg = null;
             var tip_flag = 'pdb_id';
             if (this.name == 'pcb_id') {

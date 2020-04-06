@@ -1,20 +1,10 @@
-/** 改变导航hover颜色 【公共】**/
-span.layui-nav-bar { height: 2.6px; background-color: #ffd700; }
-
-/** 消除左侧导航栏预留空间 【公共】**/
-.layui-body, .layui-layout-admin .layui-footer { left: 0; }
-.layui-layout-admin .layui-footer {text-align: center;}
-
 /**  增加顶部margin 【公共】**/
 body {color: #657180; font-size: 12px;}
 .layui-form-radio * { font-size: 12px; }
 /** 消除layui-inline margin-right，以便使用栅格布局 【create】**/
 .layui-form-item .layui-inline { margin-right: 0; }
 
-/** 卡片效果 【公共】**/
-body { background:#eee; }
-.layui-content { margin: 20px 60px 0; background:#fff; border-radius: 10px; padding-top: 15px;}
-.layui-layout-admin .layui-footer {text-align: center;width:100%;height:60px;line-height:60px;background-color: #fff;}
+.layui-form-item { margin-bottom: 0; }
 
 /* 左工具栏对齐 【list】 */
 .layui-table-tool .layui-form-label { width: 100px; }

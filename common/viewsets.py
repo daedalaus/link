@@ -14,6 +14,7 @@ from rest_framework.response import Response
 class LayUIModelViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         response = super(LayUIModelViewSet, self).create(request, *args, **kwargs)
+
         response.data = {
             'code': response.status_code,
             'msg': response.status_code,

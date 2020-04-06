@@ -7,6 +7,8 @@ var schedule_tpl = function(data) {
     return '<div class="progress_bar">' + pb_text + '</div>'
 }
 
+var win_index;
+
 var columns = [[
     {type: 'checkbox', fixed: 'left'}, // 框架有bug，如果不设置fixed，行删除后checkbox会失效
     {type: 'numbers', title: '序号', width: 120},
@@ -61,11 +63,11 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
 
     table.render({
         elem: '#table_demands',
-        height: 'full-180',
+        height: 'full-100',
         url: '/links/',
         page: true,
         cols: columns,
-        toolbar: '#toolbar_left',
+        toolbar: true,
         defaultToolbar: ['filter', 'exports',
             {title: '下载模板', layEvent: 'LAYTABLE_TPL', icon: 'layui-icon-template-1'},
             {title: '导入', layEvent: 'LAYTABLE_IMPORT', icon: 'layui-icon-upload'},
@@ -118,7 +120,7 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
     // 行事件监听
     table.on('tool(table_demands)', function(obj) {
         if (obj.event==='edit') {
-            layer.open({
+            win_index = layer.open({
                 type: 1,
                 content: $('#edit_window'),
                 area: ['700px', '500px'],
@@ -150,7 +152,6 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
             type: 'delete',
             contentType: 'application/json',
             success: function(res) {
-                console.log(res);
                 if (res.code == 204) {
                     obj.del();
                     layer.msg(res.msg);
@@ -221,7 +222,11 @@ layui.use(['element', 'laydate', 'table', 'form', 'upload', 'layer'], function()
             data: JSON.stringify(data.field),
             contentType: 'application/json',
             success: function(res) {
-                if (res.code == 201) {
+                if (res.code == 200) {
+                    layer.close(win_index);
+                    table.reload('table_demands', {
+                        url: '/links/',
+                    });
                     layer.msg(res.msg);
                 } else {
                     layer.msg(res.msg, {anim: 6, skin: 'layui-layer-hui'});

@@ -1,26 +1,17 @@
-/** 改变导航hover颜色 【公共】**/
-span.layui-nav-bar { height: 2.6px; background-color: #ffd700; }
-
-/** 消除左侧导航栏预留空间 【公共】**/
-.layui-body, .layui-layout-admin .layui-footer { left: 0; }
-
-/**  增加顶部margin 【公共】**/
+/**  调整内容离屏幕边缘的距离  **/
+.layui-form { padding: 50px 100px 0 20px; }
 body { color: #657180; font-size: 12px; }
 .layui-form-radio * { font-size: 12px; }
 
-/** 卡片效果 【公共】**/
-body { background:#eee; }
-.layui-layout-admin .layui-footer { text-align: center;width:100%;height:60px;line-height:60px;background-color: #fff; }
-.layui-content { margin: 20px 60px; background:#fff; border-radius: 10px; padding: 30px 0;height:80%; }
-
 /** 三个input框和一个textarea对齐 【create】**/
+.x-admin-sm .layui-input { height: 38px; }
 .layui-form-label {width: 51%; padding:9px 15px; box-sizing:border-box;}
 .layui-form-item .layui-input-inline { margin-right: 0; width: 49%;}
 .layui-form-item .layui-inline { margin-right: 0 }
 .layui-form-text .layui-inline .layui-form-label { width: 17%; }
 .layui-form-text .layui-inline div { width: 83%; float: left; }
 /** textarea调整高度 **/
-.layui-textarea { height: 150px; }
+.x-admin-sm .layui-textarea  { height: 150px; }
 
 /** 修改默认input框hover颜色、圆角和focus颜色阴影 【create】**/
 .layui-input:focus, .layui-textarea:focus {outline:0;box-shadow:0 0 0 3px rgba(51,153,255,.2);border-color:#5cadff !important}
@@ -37,8 +28,3 @@ body { background:#eee; }
         font-size: 12px;
         color: #f30;
 }
-
-/* 表单高度撑满 */
-html,body, .layui-layout-admin { height: 100%; padding: 0; margin: 0; }
-
-.outer { height: 89.5%; box-sizing: border-box; position: relative; }

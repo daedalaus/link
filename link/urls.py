@@ -17,10 +17,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from demands import views
+from veneers.views import BoardCountView
 
 urlpatterns = [
+    url(r'^CarlcareManager/swap/recycling-initial-price/country-select', views.country),
     url(r'^admin/', admin.site.urls),
     url(r'^demands', views.data_view),
     url(r'^demo/table/user/', views.demo_view),
     url(r'^', include('veneers.urls')),
+    url(r'^', include('permissions.urls')),
 ]

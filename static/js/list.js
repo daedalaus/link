@@ -47,11 +47,11 @@ layui.use(['element', 'table', 'form', 'layer', 'upload'], function() {
 
     table.render({
         elem: '#table_demands',
-        height: 'full-180',
+        height: 'full-100',
         url: '/boards/',
         page: true,
         cols: columns,
-        toolbar: '#toolbar_left',
+        toolbar: true,
         defaultToolbar: ['filter', 'exports',
             {title: '下载模板', layEvent: 'LAYTABLE_TPL', icon: 'layui-icon-template-1'},
             {title: '导入', layEvent: 'LAYTABLE_IMPORT', icon: 'layui-icon-upload'},
@@ -81,23 +81,20 @@ layui.use(['element', 'table', 'form', 'layer', 'upload'], function() {
         }
     });
 
-    // 左工具栏事件监听
-    table.on('toolbar(table_demands)', function(obj) {
-        switch(obj.event) {
-            case 'search':
-                var form_data = form.val('search_filter');
-                if (form_data.s_field === '' ) {
-                    layer.tips('请选择一个搜索项', 'select[name="s_field"]+div', {tips:1});
-                    return;
-                }
-                if (form_data.s_value === '') {
-                    layer.tips('请输入搜索条件', 'input[name="s_value"]', {tips:1});
-                    return;
-                }
-                gl_condition = form_data;
-                search_demands({[form_data.s_field]: form_data.s_value});
-                break;
+    // 搜索功能
+    form.on('submit(search_submit_filter)', function(data) {
+        var form_data = form.val('search_form_filter');
+        if (form_data.s_field === '' ) {
+            layer.tips('请选择一个搜索项', 'select[name="s_field"]+div', {tips:1});
+            return;
         }
+        if (form_data.s_value === '') {
+            layer.tips('请输入搜索条件', 'input[name="s_value"]', {tips:1});
+            return;
+        }
+        gl_condition = form_data;
+        search_demands({[form_data.s_field]: form_data.s_value});
+        return false;
     });
 
     // 表格重载

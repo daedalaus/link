@@ -1,0 +1,43 @@
+/** 消除layui-inline margin-right，以便使用栅格布局 【create】width 230 【link】**/
+.layui-form-item .layui-inline { margin-right: 0; }
+#search_form .layui-form-item { margin-bottom: 0; }
+
+body {color: #657180; font-size: 12px;}
+.layui-form-radio * { font-size: 12px; }
+
+/** 修改默认input框hover颜色、圆角和focus颜色阴影 【create】**/
+.layui-input:focus, .layui-textarea:focus {outline:0;box-shadow:0 0 0 3px rgba(51,153,255,.2);border-color:#5cadff !important}
+.layui-input:hover, .layui-textarea:hover {border-color: #5cadff !important;}
+.layui-input, .layui-textarea {border-radius: 10px;}
+
+/** 必填项加*号 【create】**/
+.layui-form-label:before {
+    content: '*';
+    display: inline-block;
+    margin-right: 4px;
+    line-height: 1;
+    font-family: SimSun;
+    font-size: 12px;
+    color: #f30;
+}
+
+/** 修改弹窗圆角 **/
+div.layui-layer { border-radius: 20px 20px 20px 20px; }
+div.layui-layer-title { border-radius: 20px 20px 0 0; }
+
+/** 输入框对齐 **/
+#edit_window .layui-inline { box-sizing: border-box; width: 48%; } /** 50%宽度正好为什么会塌陷？ **/
+#edit_window .layui-form-item .layui-input-inline { margin-right:0px; width: 50%; }
+/** 缩小宽度防换行【link】 **/
+#edit_window .layui-form-label { width: 33%; }
+
+/* 工具栏背景色 【list、link】 */
+.layui-table-tool { background-color: #fff; }
+
+/* 表头背景色、字体大小 【list、link】 */
+th { background-color: #F0F8FF; font-wight: bold; }
+/* 表格标题和数据字体 */
+.layui-table td, .layui-table th { font-size: 12px; }
+
+/* 弹窗input框大小调整 */
+.layui-form-item { margin-right: 80px; margin-left: 20px; }
